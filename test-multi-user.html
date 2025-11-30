@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Multi-User Test</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { max-width: 800px; margin: 0 auto; }
+        .test-step { background: #f5f5f5; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .success { background: #d4edda; border: 1px solid #c3e6cb; }
+        .warning { background: #fff3cd; border: 1px solid #ffeaa7; }
+        .info { background: #d1ecf1; border: 1px solid #bee5eb; }
+        code { background: #f8f9fa; padding: 2px 4px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🧪 Multi-User Collaboration Test Guide</h1>
+        
+        <div class="test-step info">
+            <h3>📋 Prerequisites</h3>
+            <ul>
+                <li>Docker and Docker Compose installed</li>
+                <li>Ports 3000, 8000, and 80 available</li>
+                <li>Multiple browser tabs/windows ready</li>
+            </ul>
+        </div>
+
+        <div class="test-step">
+            <h3>🚀 Step 1: Deploy the Application</h3>
+            <p>Run the deployment script:</p>
+            <code>./deploy.sh</code>
+            <p>Wait for all services to start (about 2-3 minutes)</p>
+        </div>
+
+        <div class="test-step">
+            <h3>🌐 Step 2: Open Multiple Browser Sessions</h3>
+            <p>Open these URLs in separate browser tabs/windows:</p>
+            <ul>
+                <li><a href="http://localhost:3000" target="_blank">Tab 1: http://localhost:3000</a></li>
+                <li><a href="http://localhost:3000" target="_blank">Tab 2: http://localhost:3000</a></li>
+                <li><a href="http://localhost:3000" target="_blank">Tab 3: http://localhost:3000</a></li>
+            </ul>
+        </div>
+
+        <div class="test-step success">
+            <h3>🏠 Step 3: Create and Join Room</h3>
+            <ol>
+                <li>In <strong>Tab 1</strong>: Click "Create Room" button</li>
+                <li>Copy the generated Room ID</li>
+                <li>In <strong>Tab 2 & 3</strong>: Paste Room ID and click "Join Room"</li>
+                <li>Verify all tabs show "Connected" status</li>
+            </ol>
+        </div>
+
+        <div class="test-step warning">
+            <h3>⌨️ Step 4: Test Real-time Collaboration</h3>
+            <ol>
+                <li>Start typing in the code editor in any tab</li>
+                <li>Verify text appears instantly in other tabs</li>
+                <li>Try typing from different tabs simultaneously</li>
+                <li>Test autocomplete by typing: <code>def </code>, <code>for </code>, <code>if </code></li>
+                <li>Change programming language and test again</li>
+            </ol>
+        </div>
+
+        <div class="test-step">
+            <h3>🔍 Step 5: Monitor and Debug</h3>
+            <p>Check logs if issues occur:</p>
+            <code>docker-compose logs -f</code>
+            <p>Check individual services:</p>
+            <ul>
+                <li><code>docker-compose logs backend</code></li>
+                <li><code>docker-compose logs frontend</code></li>
+                <li><code>docker-compose logs nginx</code></li>
+            </ul>
+        </div>
+
+        <div class="test-step info">
+            <h3>✅ Expected Results</h3>
+            <ul>
+                <li>✓ Multiple users can join the same room</li>
+                <li>✓ Code changes sync instantly across all users</li>
+                <li>✓ User count updates when users join/leave</li>
+                <li>✓ Autocomplete works for each user</li>
+                <li>✓ Language switching affects all users</li>
+                <li>✓ WebSocket connection status shows correctly</li>
+            </ul>
+        </div>
+
+        <div class="test-step">
+            <h3>🛑 Cleanup</h3>
+            <p>Stop the deployment when done testing:</p>
+            <code>docker-compose down</code>
+        </div>
+
+        <div class="test-step warning">
+            <h3>🐛 Common Issues & Solutions</h3>
+            <ul>
+                <li><strong>Port conflicts:</strong> Stop other services using ports 3000, 8000, 80</li>
+                <li><strong>WebSocket not connecting:</strong> Check browser console for errors</li>
+                <li><strong>Room not syncing:</strong> Verify backend logs for WebSocket errors</li>
+                <li><strong>Frontend not loading:</strong> Wait for npm install to complete</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
