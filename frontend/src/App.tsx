@@ -7,6 +7,7 @@ import AuthModal from './components/AuthModal';
 
 const AppContent: React.FC = () => {
   const [isDark, setIsDark] = useState(true);
+  const [showSidebar, setShowSidebar] = useState(false);
   const { isAuthenticated } = useSelector((state: RootState) => state.room);
 
   if (!isAuthenticated) {
@@ -22,8 +23,6 @@ const AppContent: React.FC = () => {
       </div>
     );
   }
-
-  const [showSidebar, setShowSidebar] = useState(false);
 
   return (
     <div
