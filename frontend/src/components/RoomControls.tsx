@@ -17,7 +17,8 @@ const RoomControls: React.FC<{
   setShowSnackbar: (show: boolean) => void;
   isDark: boolean;
   showNotification: (message: string, type?: 'success' | 'error') => void;
-}> = ({ showSnackbar, setShowSnackbar, isDark, showNotification }) => {
+  onRoomAction?: () => void;
+}> = ({ showSnackbar, setShowSnackbar, isDark, showNotification, onRoomAction }) => {
   const dispatch = useDispatch();
   const {
     roomId,
@@ -37,6 +38,7 @@ const RoomControls: React.FC<{
       setInputRoomId(room.roomId);
       setTimeout(() => {
         handleJoinRoom(room.roomId);
+        onRoomAction?.();
       }, 500);
     } catch (error) {
       showNotification(`Failed to create room: ${error}`, 'error');
@@ -409,8 +411,9 @@ const NotificationSnackbar: React.FC<{
   );
 };
 
-const RoomControlsWithSnackbar: React.FC<{ isDark: boolean }> = ({
+const RoomControlsWithSnackbar: React.FC<{ isDark: boolean; onRoomAction?: () => void }> = ({
   isDark,
+  onRoomAction,
 }) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [notification, setNotification] = useState({
@@ -434,6 +437,7 @@ const RoomControlsWithSnackbar: React.FC<{ isDark: boolean }> = ({
         setShowSnackbar={setShowSnackbar}
         isDark={isDark}
         showNotification={showNotification}
+        onRoomAction={onRoomAction}
       />
       <Snackbar show={showSnackbar} />
       <NotificationSnackbar
