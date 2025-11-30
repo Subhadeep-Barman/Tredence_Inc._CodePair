@@ -32,5 +32,8 @@ async def get_db():
 
 async def init_db():
     """Initialize database tables"""
+    def create_tables(connection):
+        Base.metadata.create_all(connection, checkfirst=True)
+    
     async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+        await conn.run_sync(create_tables)
