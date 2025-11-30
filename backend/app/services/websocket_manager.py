@@ -54,6 +54,7 @@ class WebSocketManager:
         }, websocket)
         
         # Notify ALL users (including the new one) about the updated user count
+        # Do NOT exclude anyone - everyone needs to see the updated count
         await self.broadcast_to_room({
             "type": "user_joined",
             "roomId": room_id,
@@ -63,7 +64,7 @@ class WebSocketManager:
                 "connectedUsers": connected_users,
                 "displayName": display_name
             }
-        }, room_id)
+        }, room_id, exclude_user=None)
         
         return user_id
     
