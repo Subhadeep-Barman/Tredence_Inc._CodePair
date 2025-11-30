@@ -4,12 +4,22 @@ export interface ExecutionResult {
   executionTime: number;
 }
 
+// Get API base URL from environment
+const getApiBase = (): string => {
+  const apiUrl = process.env.REACT_APP_API_URL;
+  if (apiUrl) {
+    return apiUrl;
+  }
+  return '';
+};
+
 export const executeCode = async (
   code: string,
   language: string
 ): Promise<ExecutionResult> => {
   try {
-    const response = await fetch('/api/execute', {
+    const apiBase = getApiBase();
+    const response = await fetch(`${apiBase}/api/execute`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
