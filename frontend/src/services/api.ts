@@ -1,12 +1,21 @@
 import { Room, AutocompleteRequest, AutocompleteResponse } from '../types';
 
-const API_BASE = '/api';
+// Get API base URL from environment or use relative path for same-origin requests
+const getApiBase = (): string => {
+  const apiUrl = process.env.REACT_APP_API_URL;
+  if (apiUrl) {
+    return apiUrl;
+  }
+  return '';
+};
+
+const API_BASE = getApiBase();
 
 export const createRoom = async (
   language: string = 'python'
 ): Promise<Room> => {
   console.log('Making API request to create room:', { language });
-  const url = `${API_BASE}/rooms`;
+  const url = `${API_BASE}/api/rooms`;
   console.log('Request URL:', url);
 
   const response = await fetch(url, {
@@ -32,7 +41,8 @@ export const createRoom = async (
 export const getAutocomplete = async (
   request: AutocompleteRequest
 ): Promise<AutocompleteResponse> => {
-  const response = await fetch(`${API_BASE}/autocomplete`, {
+  const url = `${API_BASE}/api/autocomplete`;
+  const response = await fetch(url, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(request),

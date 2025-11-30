@@ -1,5 +1,17 @@
 import { WebSocketMessage } from '../types';
 
+// Get WebSocket URL based on environment
+const getWebSocketUrl = (): string => {
+  const wsUrl = process.env.REACT_APP_WS_URL;
+  if (wsUrl) {
+    return wsUrl;
+  }
+  
+  // Fallback: construct from current location
+  const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+  return `${protocol}//${window.location.host}`;
+};
+
 export class WebSocketService {
   private ws: WebSocket | null = null;
   private roomId: string | null = null;
@@ -19,9 +31,11 @@ export class WebSocketService {
     this.onConnect = onConnect;
     this.onDisconnect = onDisconnect;
 
-    this.ws = new WebSocket(
-      `ws://localhost:8000/ws/${roomId}?display_name=${encodeURIComponent(displayName)}`
-    );
+    const wsBaseUrl = getWebSocketUrl();
+    const wsUrl = `${wsBaseUrl}/ws/${roomId}?display_name=${encodeURIComponent(displayName)}`;
+    
+    console.log('Connecting to WebSocket:', wsUrl);
+    this.ws = new WebSocket(wsUrl);
 
     this.ws.onopen = () => {
       console.log('WebSocket connected to room:', roomId, 'as', displayName);
@@ -38,7 +52,12 @@ export class WebSocketService {
       }
     };
 
+    this.ws.onerror = (error) => {
+      console.error('WebSocket error:', error);
+    };
+
     this.ws.onclose = () => {
+      console.log('WebSocket disconnected');
       this.onDisconnect();
     };
   }
