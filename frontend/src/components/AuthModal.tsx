@@ -71,7 +71,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isDark }) => {
   return (
     <div className="relative min-h-screen w-full overflow-hidden flex items-center justify-center">
       {/* Interactive cursor trail background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <div className="absolute inset-0 bg-gradient-to-br from-gray-950 via-slate-950 to-gray-950">
         {/* Animated mesh grid */}
         <div className="absolute inset-0 opacity-20">
           <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:64px_64px] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000,transparent)]"></div>
@@ -118,9 +118,9 @@ const AuthModal: React.FC<AuthModalProps> = ({ isDark }) => {
         ></div>
         
         {/* Animated 3D orbs with parallax effect */}
-        <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob"></div>
-        <div className="absolute top-0 -right-4 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-2000"></div>
-        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-40 animate-blob animation-delay-4000"></div>
+        <div className="absolute top-0 -left-4 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-96 h-96 bg-cyan-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000"></div>
+        <div className="absolute -bottom-8 left-20 w-96 h-96 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000"></div>
         
         {/* Floating sparkles */}
         <div className="absolute top-1/4 left-1/4 w-1 h-1 bg-white rounded-full animate-sparkle opacity-60"></div>
@@ -138,13 +138,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isDark }) => {
         <div className="absolute top-1/2 -right-16 w-32 h-32 bg-gradient-to-br from-yellow-400/20 to-orange-400/20 rounded-full blur-2xl animate-float animation-delay-3000"></div>
         
         {/* Glass card with 3D transform */}
-        <div className="relative backdrop-blur-2xl bg-white/10 border border-white/20 rounded-[2rem] shadow-2xl p-8 transform hover:scale-[1.02] transition-all duration-500 hover:shadow-purple-500/20 hover:shadow-3xl" style={{ transformStyle: 'preserve-3d' }}>
+        <div className="relative backdrop-blur-2xl bg-gray-900/80 border border-white/30 rounded-[2rem] shadow-2xl p-8 transform hover:scale-[1.02] transition-all duration-500 hover:shadow-purple-500/30 hover:shadow-3xl" style={{ transformStyle: 'preserve-3d' }}>
           {/* Heading - text only, no icon */}
           <div className="text-center mb-8">
             <h1 className="text-5xl font-bold text-white mb-3 bg-gradient-to-r from-white via-purple-200 to-pink-200 bg-clip-text text-transparent tracking-tight">
               CodePair
             </h1>
-            <p className="text-gray-300 text-lg">
+            <p className="text-gray-200 text-lg">
               Real-time collaborative coding
             </p>
             <div className="flex items-center justify-center gap-4 mt-4 text-sm text-gray-400">
@@ -165,7 +165,7 @@ const AuthModal: React.FC<AuthModalProps> = ({ isDark }) => {
 
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="group">
-              <label className="block text-sm font-medium mb-2 text-gray-200">
+              <label className="block text-sm font-medium mb-2 text-gray-100">
                 Display Name
               </label>
               <div className="relative">
@@ -175,14 +175,14 @@ const AuthModal: React.FC<AuthModalProps> = ({ isDark }) => {
                   value={name}
                   onChange={e => setName(e.target.value)}
                   placeholder="Enter your name"
-                  className="relative w-full px-5 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white placeholder-gray-400 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-white/50 focus:bg-white/15 hover:bg-white/12"
+                  className="relative w-full px-5 py-4 bg-gray-800/60 backdrop-blur-sm border border-gray-600/50 text-white placeholder-gray-400 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/70 focus:border-purple-400/50 focus:bg-gray-800/80 hover:bg-gray-800/70"
                   maxLength={20}
                 />
               </div>
             </div>
 
             <div className="group">
-              <label className="block text-sm font-medium mb-2 text-gray-200">
+              <label className="block text-sm font-medium mb-2 text-gray-100">
                 Verify you're human: {captcha.split('=')[0]}= ?
               </label>
               <div className="relative">
@@ -194,13 +194,13 @@ const AuthModal: React.FC<AuthModalProps> = ({ isDark }) => {
                     setCaptcha(captcha.split('=')[0] + '= ' + e.target.value)
                   }
                   placeholder="Answer"
-                  className="relative w-full px-5 py-4 bg-white/10 backdrop-blur-sm border border-white/30 text-white placeholder-gray-400 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-white/50 focus:bg-white/15 hover:bg-white/12"
+                  className="relative w-full px-5 py-4 bg-gray-800/60 backdrop-blur-sm border border-gray-600/50 text-white placeholder-gray-400 rounded-2xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/70 focus:border-purple-400/50 focus:bg-gray-800/80 hover:bg-gray-800/70"
                 />
               </div>
             </div>
 
             {error && (
-              <div className="bg-red-500/10 border border-red-500/30 rounded-2xl p-4 backdrop-blur-sm animate-shake">
+              <div className="bg-red-900/40 border border-red-500/50 rounded-2xl p-4 backdrop-blur-sm animate-shake">
                 <p className="text-red-300 text-sm flex items-center gap-2">
                   <svg className="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
