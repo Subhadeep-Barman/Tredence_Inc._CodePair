@@ -257,8 +257,15 @@ const RoomControls: React.FC<{
         <div className="relative">
           <select
             value={language}
-            onChange={e => dispatch(setLanguage(e.target.value))}
-            className={`w-full px-4 py-3 pr-10 text-sm rounded-2xl backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:scale-[1.02] appearance-none cursor-pointer ${
+            onChange={e => {
+              if (isConnected) {
+                setShowSnackbar(true);
+                setTimeout(() => setShowSnackbar(false), 3000);
+                return;
+              }
+              dispatch(setLanguage(e.target.value));
+            }}
+            className={`w-full px-4 py-3 pr-10 text-sm rounded-2xl backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:scale-[1.02] appearance-none ${isConnected ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'} ${
               isDark
                 ? 'bg-white/10 border border-white/20 text-white hover:bg-white/15'
                 : 'bg-gray-50 border border-gray-300 text-gray-900'
