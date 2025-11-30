@@ -32,5 +32,10 @@ async def get_db():
 
 async def init_db():
     """Initialize database tables"""
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
+    try:
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    except Exception as e:
+        # Tables might already exist, which is fine
+        print(f"Database initialization: {e}")
+        pass

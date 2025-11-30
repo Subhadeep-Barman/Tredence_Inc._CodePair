@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import logging
+import os
 
 from app.database import init_db
 from app.routers import rooms, autocomplete, websocket, execute
@@ -30,13 +31,35 @@ logger = logging.getLogger(__name__)
 app.add_middleware(RateLimitMiddleware, rate_limiter=rate_limiter)
 
 # Configure CORS
+frontend_url = os.getenv("FRONTEND_URL", "http://localhost:3000")
+allowed_origins = [
+    "http://localhost:3000",
+    "http://localhost:8000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:8000",
+    frontend_url,
+]
+
+# Add production origins if they exist
+if os.getenv("PRODUCTION_FRONTEND_URL"):
+    allowed_origins.append(os.getenv("PRODUCTION_FRONTEND_URL"))
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=allowed_origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Add security headers middleware
+@app.middleware("http")
+async def add_security_headers(request, call_next):
+    response = await call_next(request)
+    response.headers["X-Content-Type-Options"] = "nosniff"
+    response.headers["X-Frame-Options"] = "DENY"
+    response.headers["X-XSS-Protection"] = "1; mode=block"
+    return response
 
 # Global exception handler
 @app.exception_handler(Exception)
@@ -67,4 +90,6 @@ async def health_check():
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    host = os.getenv("HOST", "0.0.0.0")
+    port = int(os.getenv("PORT", 8000))
+    uvicorn.run(app, host=host, port=port)
