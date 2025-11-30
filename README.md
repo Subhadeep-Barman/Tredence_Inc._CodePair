@@ -2,6 +2,12 @@
 
 A full-stack collaborative code editor enabling multiple developers to code together in real-time with instant synchronization, AI-powered autocomplete, and seamless room-based collaboration.
 
+## 🚀 Live Demo
+
+**Try it now:** [https://codepair-7d3c.onrender.com](https://codepair-7d3c.onrender.com)
+
+Open the link, create a room, and share the room ID with friends to collaborate in real-time!
+
 ## Key Features
 
 ### Core Collaboration Features
