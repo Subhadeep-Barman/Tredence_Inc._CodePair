@@ -17,7 +17,8 @@ const RoomControls: React.FC<{
   setShowSnackbar: (show: boolean) => void;
   isDark: boolean;
   showNotification: (message: string, type?: 'success' | 'error') => void;
-}> = ({ showSnackbar, setShowSnackbar, isDark, showNotification }) => {
+  onRoomAction?: () => void;
+}> = ({ showSnackbar, setShowSnackbar, isDark, showNotification, onRoomAction }) => {
   const dispatch = useDispatch();
   const {
     roomId,
@@ -37,6 +38,7 @@ const RoomControls: React.FC<{
       setInputRoomId(room.roomId);
       setTimeout(() => {
         handleJoinRoom(room.roomId);
+        onRoomAction?.();
       }, 500);
     } catch (error) {
       showNotification(`Failed to create room: ${error}`, 'error');
@@ -85,6 +87,18 @@ const RoomControls: React.FC<{
             }
             if (message.data?.connectedUsers) {
               dispatch(setConnectedUsers(message.data.connectedUsers));
+            }
+            break;
+          case 'language_change':
+            if (message.data?.language) {
+              dispatch(setLanguage(message.data.language));
+              const userName = message.data.userName || 'Someone';
+              const oldLang = message.data.oldLanguage || '';
+              const newLang = message.data.language || '';
+              showNotification(
+                `${userName} changed language from ${oldLang} to ${newLang}`,
+                'success'
+              );
             }
             break;
         }
@@ -257,7 +271,19 @@ const RoomControls: React.FC<{
         <div className="relative">
           <select
             value={language}
-            onChange={e => dispatch(setLanguage(e.target.value))}
+            onChange={e => {
+              const newLanguage = e.target.value;
+              dispatch(setLanguage(newLanguage));
+              
+              // If connected, broadcast language change to all users
+              if (isConnected && roomId) {
+                websocketService.send({
+                  type: 'language_change',
+                  roomId: roomId,
+                  data: { language: newLanguage },
+                });
+              }
+            }}
             className={`w-full px-4 py-3 pr-10 text-sm rounded-2xl backdrop-blur-sm transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:scale-[1.02] appearance-none cursor-pointer ${
               isDark
                 ? 'bg-white/10 border border-white/20 text-white hover:bg-white/15'
@@ -385,8 +411,9 @@ const NotificationSnackbar: React.FC<{
   );
 };
 
-const RoomControlsWithSnackbar: React.FC<{ isDark: boolean }> = ({
+const RoomControlsWithSnackbar: React.FC<{ isDark: boolean; onRoomAction?: () => void }> = ({
   isDark,
+  onRoomAction,
 }) => {
   const [showSnackbar, setShowSnackbar] = useState(false);
   const [notification, setNotification] = useState({
@@ -410,6 +437,7 @@ const RoomControlsWithSnackbar: React.FC<{ isDark: boolean }> = ({
         setShowSnackbar={setShowSnackbar}
         isDark={isDark}
         showNotification={showNotification}
+        onRoomAction={onRoomAction}
       />
       <Snackbar show={showSnackbar} />
       <NotificationSnackbar

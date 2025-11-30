@@ -298,26 +298,26 @@ const CodeEditor: React.FC<{ isDark: boolean }> = ({ isDark }) => {
           : 'bg-white/90 border border-gray-200 shadow-gray-200/50'
       }`}
     >
-      <div className="flex items-center justify-between mb-2 flex-shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="flex gap-2">
-            <div className="w-3 h-3 rounded-full bg-gradient-to-r from-red-400 to-red-500 shadow-lg"></div>
-            <div className="w-3 h-3 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-lg"></div>
-            <div className="w-3 h-3 rounded-full bg-gradient-to-r from-green-400 to-green-500 shadow-lg"></div>
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 flex-shrink-0 gap-2">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="flex gap-1 sm:gap-2">
+            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-gradient-to-r from-red-400 to-red-500 shadow-lg"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-gradient-to-r from-yellow-400 to-yellow-500 shadow-lg"></div>
+            <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full bg-gradient-to-r from-green-400 to-green-500 shadow-lg"></div>
           </div>
           <span
-            className={`text-sm font-semibold ${
+            className={`text-xs sm:text-sm font-semibold ${
               isDark ? 'text-gray-200' : 'text-gray-700'
             }`}
           >
             Code Editor
           </span>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1 sm:gap-2 w-full sm:w-auto">
           <button
             onClick={handleRunCode}
             disabled={!code.trim() || isExecuting}
-            className={`flex items-center px-3 py-2 text-sm font-medium rounded-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+            className={`flex items-center px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium rounded-lg sm:rounded-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex-1 sm:flex-initial justify-center ${
               isDark
                 ? 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg hover:shadow-green-500/25'
                 : 'bg-gradient-to-r from-green-500 to-emerald-600 text-white shadow-lg hover:shadow-green-500/25'
@@ -338,7 +338,7 @@ const CodeEditor: React.FC<{ isDark: boolean }> = ({ isDark }) => {
           <button
             onClick={handleAutocomplete}
             disabled={!code}
-            className={`flex items-center px-3 py-2 text-sm font-medium rounded-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 ${
+            className={`flex items-center px-2 sm:px-3 py-1.5 sm:py-2 text-xs sm:text-sm font-medium rounded-lg sm:rounded-xl backdrop-blur-sm transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 flex-1 sm:flex-initial justify-center ${
               isDark
                 ? 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg hover:shadow-purple-500/25'
                 : 'bg-gradient-to-r from-purple-500 to-pink-600 text-white shadow-lg hover:shadow-purple-500/25'

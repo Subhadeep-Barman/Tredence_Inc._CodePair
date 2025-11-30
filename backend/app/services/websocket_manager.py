@@ -54,6 +54,7 @@ class WebSocketManager:
         }, websocket)
         
         # Notify ALL users (including the new one) about the updated user count
+        # Do NOT exclude anyone - everyone needs to see the updated count
         await self.broadcast_to_room({
             "type": "user_joined",
             "roomId": room_id,
@@ -63,7 +64,7 @@ class WebSocketManager:
                 "connectedUsers": connected_users,
                 "displayName": display_name
             }
-        }, room_id)
+        }, room_id, exclude_user=None)
         
         return user_id
     
@@ -142,6 +143,31 @@ class WebSocketManager:
                 "userId": user_id,
                 "data": message.data
             }, room_id, exclude_user=user_id)
+        
+        elif message.type == "language_change":
+            # Update room activity
+            self.room_last_activity[room_id] = time.time()
+            
+            # Update room state language
+            if room_id in self.room_states and message.data and "language" in message.data:
+                old_language = self.room_states[room_id]["language"]
+                new_language = message.data["language"]
+                self.room_states[room_id]["language"] = new_language
+                
+                # Get user's display name
+                user_name = self.room_users.get(room_id, {}).get(user_id, "Someone")
+                
+                # Broadcast to ALL users including the sender
+                await self.broadcast_to_room({
+                    "type": "language_change",
+                    "roomId": room_id,
+                    "userId": user_id,
+                    "data": {
+                        "language": new_language,
+                        "oldLanguage": old_language,
+                        "userName": user_name
+                    }
+                }, room_id, exclude_user=None)
     
     def get_room_user_count(self, room_id: str) -> int:
         """Get the number of users in a room"""

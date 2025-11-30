@@ -38,6 +38,7 @@ allowed_origins = [
     "http://127.0.0.1:3000",
     "http://127.0.0.1:8000",
     frontend_url,
+    "https://codepair-7d3c.onrender.com",  # Production frontend
 ]
 
 # Add production origins if they exist
