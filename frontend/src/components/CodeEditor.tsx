@@ -266,6 +266,16 @@ const CodeEditor: React.FC<{ isDark: boolean }> = ({ isDark }) => {
   const handleRunCode = async () => {
     if (!code.trim()) return;
     
+    // Check if user is in a room
+    if (!roomId || !isConnected) {
+      setExecutionResult({
+        output: '',
+        error: 'Please join a room first before running code. The compiler requires an active room connection.',
+        executionTime: 0,
+      });
+      return;
+    }
+    
     setIsExecuting(true);
     try {
       const result = await executeCode(code, language);
